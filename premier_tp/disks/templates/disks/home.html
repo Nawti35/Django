@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}{% endblock %}
+{% block content %}
+    <h2>Voici la liste des albums :</h2>
+
+    <table>
+
+    {% for albums in derniers_albums %}
+        <tr>
+        <div class="albums">
+           <td><a href="{% url 'lire_album' id=albums.id %}">{{ albums.Title }}</a></td>
+        </div>
+        </tr>
+    {% empty %}
+        <p>Aucun albums</p>
+    {% endfor %}
+
+    </table>
+{% endblock %}
