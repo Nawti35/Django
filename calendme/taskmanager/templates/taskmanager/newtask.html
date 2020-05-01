@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}{% endblock %}
+{% block nav %}
+
+<h3><a href = "{% url 'project' %}">Projets</a> / <a href = "{% url 'liste_tache' id=projet.id %}">{{projet.name}}</a>
+</h3>
+
+{% endblock %}
+{% block content %}
+
+    <h2>{{projet.name}}</h2>
+    <h2>{{projet.id}}</h2>
+    <h3>{{name}}</h3>
+    <p>Creation</p>
+
+    <div class="form-group">
+    <form action="{% url 'new' id=projet.id %}" method="post">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+        <input type="submit" value="Sauvegarder" />
+
+    </form>
+    </div>
+
+
+{% endblock %}

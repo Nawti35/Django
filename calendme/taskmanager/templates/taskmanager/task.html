@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block title %}{% endblock %}
+{% block nav %}
+
+<h3><a href = "{% url 'project' %}">Projets</a> / <a href = "{% url 'liste_tache' id=tache.project.id %}">{{tache.project.name}}</a> / <a href = "{% url 'tache' id=tache.id %}">{{tache.name}} </a>
+</h3>
+
+{% endblock %}
+
+{% block inter %}
+<h2 style = "text-align:center"><b>{{tache.project.name}}</b></h2>
+<h3 style = "text-align:left"><i>{{tache.name}}</i></h3>
+{% endblock %}
+{% block content %}
+
+
+
+
+    <p><a href = "{% url 'edit' id=tache.id %}" type="button" class="btn btn-primary"> EDIT </a></p>
+
+
+    <table class = "table">
+
+        <tr>
+            <th  style = "text-align:left"> Assignee </th>
+            <td>{{ tache.assignee }}</td>
+        </tr>
+        <tr>
+            <th style = "text-align:left"> Start Date </th>
+            <td>{{ tache.start_date}}</td>
+        </tr>
+        <tr>
+            <th style = "text-align:left"> Due Date </th>
+            <td ><p class="badge badge-warning">{{ tache.due_date }}</p></td>
+        </tr>
+        <tr>
+            <th style = "text-align:left"> Status </th>
+            <td>{{ tache.status }}</td>
+        </tr>
+
+
+    </table>
+
+
+
+    <h3>History</h3>
+    <table class = "table">
+    {% for journal in journals %}
+        <tr>
+        <div class="journal">
+
+            <td ><p class="badge badge badge-primary">{{ journal.author }}</p></td>
+             <td>{{ journal.date}}</td>
+             <td>{{ journal.entry }}</td>
+
+        </div>
+        </tr>
+    {% empty %}
+        <p>Aucun historique de journal</p>
+    {% endfor %}
+
+    <form action="{% url 'history' id=tache.id %}" method="post">
+        {% csrf_token %}
+    <div class="form-group">
+        {{ form.as_p }}
+        <input type="submit" value="Add History" class="btn btn-secondary"/>
+    </div>
+    </form>
+
+    </table>
+{% endblock %}

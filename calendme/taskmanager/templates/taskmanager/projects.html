@@ -1,20 +1,29 @@
 {% extends "base.html" %}
 {% block title %}{% endblock %}
-{% block content %}
-    <h2>Voici les projets</h2>
 
-    <table>
+{% block nav %}
+  <h3><a href = "{% url 'project' %}">Projets</a>
+{% endblock %}
+
+      {% block inter %}
+       <h2>Voici les projets</h2>
+      {% endblock %}
+
+{% block content %}
+
+
+    <table class = "table">
 
     {% for project in  projects %}
         <tr>
         <div class="project">
 
-            <td>{{ project.name }}</a></td>
+            <td><a href = "{% url 'liste_tache' id=project.id%}">{{ project.name }}</a></td>
 
         </div>
         </tr>
     {% empty %}
-        <p>Aucun albums</p>
+        <p>Aucun projets</p>
     {% endfor %}
 
     </table>

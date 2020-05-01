@@ -1,5 +1,12 @@
 {% extends "base.html" %}
 {% block title %}Calend-me : Login{% endblock %}
+
+<header>
+    <h1>Calend-me</h1>
+    <h3>Bonjour ! Veuillez vous connecter </h3>
+
+</header>
+
 {% block content %}
     <form method="post" action="{% url 'login' %}">
     {% csrf_token %}
