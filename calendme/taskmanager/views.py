@@ -52,12 +52,13 @@ def edittask(request,id):
 
     tache = Task.objects.get(id=id)
 
-
-    form = TaskForm(request.POST or None ,instance=tache), #Ici les informations de la tache modifiée sont préremplis
+    form = TaskForm(request.POST or None,instance=tache) #Ici les informations de la tache modifiée sont préremplis
 
     if form.is_valid():
 
-        form.save()
+        tache  = form.save(commit = False)
+        tache.save()
+
 
         return task(request,id) #On renvois la page de la tahce une fois sauvegardé
 

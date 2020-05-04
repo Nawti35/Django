@@ -16,7 +16,6 @@
     <div class="form-group">
     <form action="{% url 'new' id=projet.id %}" method="post">
         {% csrf_token %}
-
         {{ form.as_p }}
         <input type="submit" value="Sauvegarder" />
 

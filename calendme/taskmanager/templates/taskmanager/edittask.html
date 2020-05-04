@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 {% block title %}{% endblock %}
 {% block nav %}
-
+<!--
 <h3><a href = "{% url 'project' %}">Projets</a> / <a href = "{% url 'liste_tache' id=tache.project.id %}">{{tache.project.name}}</a> / <a href = "{% url 'tache' id=tache.id %}">{{tache.name}} </a>
-</h3>
+</h3>-->
 
 {% endblock %}
 {% block content %}
@@ -17,7 +17,7 @@
         {% csrf_token %}
 
         {{ form.as_p }}
-        <input type="submit" value="Submit" />
+        <input type="submit" value="Editer" />
 
     </form>
     </div>
