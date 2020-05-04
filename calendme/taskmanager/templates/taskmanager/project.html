@@ -21,6 +21,7 @@
         <th>Assignee</th>
         <th>Start date</th>
         <th>Due date</th>
+        <th></th>
 
     </tr>
 
@@ -28,10 +29,12 @@
         <tr>
         <div class="tache">
 
-            <td><a href = "{% url 'tache' id=tache.id %}">{{ tache.name }}</a></td>
+            <td><a href = "{% url 'tache' id=tache.id %}" style="text-align: left ">{{ tache.name }}</a></td>
              <td>{{ tache.assignee }}</td>
              <td>{{ tache.start_date }}</td>
             <td><p class="badge badge-warning">{{ tache.due_date }}</p></td>
+            <td><a href = "{% url 'edit' id=tache.id %}" class="badge badge-danger"> EDIT </a></td>
+
         </div>
         </tr>
     {% empty %}
