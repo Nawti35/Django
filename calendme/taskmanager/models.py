@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 # Create your models here.
+#Les modeles ont toous été crées à partir de l'énoncé aucune modification n'a été apportée à ces derniers
 class Project(models.Model):
     name = models.CharField(max_length = 200)
     members = models.ManyToManyField(User, related_name="Project")

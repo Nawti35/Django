@@ -9,4 +9,4 @@ class TaskForm(forms.ModelForm):
 class JournalForm(forms.ModelForm):
     class Meta:
         model = Journal
-        fields = ('entry',)
+        fields = ('entry',) #Les autres entrees du journal seront automatiquement remplies (la date et l'utilisateur)

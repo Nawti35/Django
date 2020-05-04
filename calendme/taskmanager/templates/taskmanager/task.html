@@ -2,6 +2,7 @@
 {% block title %}{% endblock %}
 {% block nav %}
 
+<!-- Barre de navigation permettant de reactualiser la page ou d'acceder aux précendentes -->
 <h3><a href = "{% url 'project' %}">Projets</a> / <a href = "{% url 'liste_tache' id=tache.project.id %}">{{tache.project.name}}</a> / <a href = "{% url 'tache' id=tache.id %}">{{tache.name}} </a>
 </h3>
 
@@ -18,7 +19,7 @@
 
     <p><a href = "{% url 'edit' id=tache.id %}" type="button" class="btn btn-primary"> EDIT </a></p>
 
-
+    <!-- Tableau affichant les caractéristiques d'une tache, les colonnes titres sont a gauches -->
     <table class = "table">
 
         <tr>
@@ -44,6 +45,8 @@
 
 
     <h3>History</h3>
+
+    <!-- Tableau affichant l'historique du journal, avec la date et l'utilisateurs qui a écrit -->
     <table class = "table">
     {% for journal in journals %}
         <tr>
@@ -59,6 +62,7 @@
         <p>Aucun historique de journal</p>
     {% endfor %}
 
+    <!-- Form permettant d'ajouter un element au journal de la tache, la date est automatiquement celle du jour et l'utilisateur celui qui est connecté. -->
     <form action="{% url 'history' id=tache.id %}" method="post">
         {% csrf_token %}
     <div class="form-group">
