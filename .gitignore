@@ -2,7 +2,7 @@
 /venv/
 /calendme/db.sqlite3
 /calendme/taskmanager/migrations/
-/calndme/.idea/
+/calendme/.idea/
 /premier_tp/
 *.pyc
 *.log
