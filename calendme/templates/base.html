@@ -2,11 +2,13 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+
     <title>
         {% block title %}
         Calend-me
         {% endblock %}
     </title>
+
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
@@ -42,17 +44,20 @@
    </nav>
    <section id="content">
 
-    <div class="container-fluid">
-           {% block inter %}
-           {% endblock %}
-
-       </div>
+    <div class="container-fluid ">
+        {% block inter %}
+        {% endblock %}
 
 
-       {% block content %}{% endblock %}
+
+
+
+       {% block content %}
+       {% endblock %}
+     </div>
 
    </section>
 
-<footer>     &copy; Albums  </footer>
+<footer>     &copy; Titouan Dellis  </footer>
 </body>
 </html>
