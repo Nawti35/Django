@@ -21,3 +21,7 @@ class JournalForm(forms.ModelForm):
     class Meta:
         model = Journal
         fields = ('entry',) #Les autres entrees du journal seront automatiquement remplies (la date et l'utilisateur)
+
+
+class SearchTaskForm(forms.ModelForm):
+    searchField = forms.CharField()
