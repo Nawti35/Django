@@ -1,2 +1,6 @@
 # Project exclude paths
 /venv/
+/calendme/db.sqlite3
+/calendme/taskmanager/migrations/
+/.idea/
+/premier_tp/

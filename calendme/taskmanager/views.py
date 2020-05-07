@@ -9,6 +9,7 @@ from datetime import datetime
 
 #Coucou ceci est un test
 # ET CA C'EST MA ****, WOUUUUH
+#test 3
 
 @login_required
 def projects(request):
