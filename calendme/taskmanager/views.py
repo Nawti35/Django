@@ -7,8 +7,6 @@ from .forms import TaskForm,JournalForm
 from datetime import datetime
 # Create your views here.
 
-#Coucou ceci est un test
-# ET CA C'EST MA ****, WOUUUUH
 
 @login_required
 def projects(request):
