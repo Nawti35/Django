@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
@@ -5,6 +6,7 @@ from .models import Project, Task, Journal
 from django.contrib.auth.models import User
 from .forms import TaskForm,JournalForm
 from datetime import datetime
+import csv
 # Create your views here.
 
 
@@ -90,4 +92,42 @@ def history(request,id):
     # Quoiqu'il arrive, on affiche la page du formulaire.
     return render(request, 'taskmanager/task.html', locals(),{'tache' : tache})
 
+@login_required
+def exportcvs(request):
+    response = HttpResponse(content_type='text_csv')
 
+    writer = csv.writer(response)
+
+    writer.writerow(['Projets:'])
+    for project in Project.objects.all().values_list('name'):
+        writer.writerow(project)
+
+    writer.writerow('')
+
+    writer.writerow(['Taches:'])
+    writer.writerow(['Nom, Description, Assignee, Date debut, Date fin, Statut, Priorite'])
+    writer.writerow('')
+    projects = Project.objects.all()
+    for project in projects:
+        tasks = project.task_set.all()
+        for task in tasks:
+            task_attrs = (task.project.name, task.name, task.description, task.assignee, task.start_date, task.due_date, task.status, task.priority)
+            writer.writerow(task_attrs)
+        writer.writerow('')
+
+    writer.writerow('')
+
+    writer.writerow(['Journals:'])
+    writer.writerow(['Projet, Tache, Date, Entree, Auteur'])
+    writer.writerow('')
+    tasks = Task.objects.all()
+    for task in tasks:
+        journals = task.journal_set.all()
+        for journal in journals:
+            journal_attrs = (task.project.name, task.name, journal.date, journal.entry, journal.author)
+            writer.writerow(journal_attrs)
+        writer.writerow('')
+
+    response['Content-Disposition'] = 'attachment; filename="projects.csv"'
+
+    return response
