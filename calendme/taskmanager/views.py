@@ -144,3 +144,20 @@ def exportjson(request):
     journals = serializers.serialize('json', journals, indent = 2,  use_natural_foreign_keys=True, use_natural_primary_keys=True)
 
     return HttpResponse(projects + tasks + journals, content_type="taskmanager/json")
+
+@login_required
+def exportxml(request):
+    projects = Project.objects.all()
+    tasks = Task.objects.all()
+    journals = Journal.objects.all()
+
+    projects = serializers.serialize('xml', projects, indent=2, use_natural_foreign_keys=True, use_natural_primary_keys=True)
+    tasks = serializers.serialize('xml', tasks, indent = 2,  use_natural_foreign_keys=True, use_natural_primary_keys=True)
+    journals = serializers.serialize('xml', journals, indent = 2,  use_natural_foreign_keys=True, use_natural_primary_keys=True)
+
+    # Balises de debut et de fin en trop pendant la fusion des donnees
+    projects = projects[:len(projects)-17]
+    tasks = tasks[71:len(tasks)-17]
+    journals = journals[71:]
+
+    return HttpResponse(projects + tasks + journals, content_type="taskmanager/xml")

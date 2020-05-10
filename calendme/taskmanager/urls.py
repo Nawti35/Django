@@ -12,5 +12,6 @@ urlpatterns = [
     path('newtask/<int:id>',views.newtask, name='new'),
     path('newhist/<int:id>',views.history, name  = 'history'),
     path('exportcsv', views.exportcvs, name = 'exportcsv'),
-    path('exportjson', views.exportjson, name = 'exportjson')
+    path('exportjson', views.exportjson, name = 'exportjson'),
+    path('exportxml', views.exportxml, name = 'exportxml')
 ]
