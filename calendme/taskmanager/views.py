@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from .forms import TaskForm,JournalForm
 from datetime import datetime
 import csv
+from django.core import serializers
 # Create your views here.
 
 
@@ -131,3 +132,15 @@ def exportcvs(request):
     response['Content-Disposition'] = 'attachment; filename="projects.csv"'
 
     return response
+
+@login_required
+def exportjson(request):
+    projects = Project.objects.all()
+    tasks = Task.objects.all()
+    journals = Journal.objects.all()
+
+    projects = serializers.serialize('json', projects, indent=2, use_natural_foreign_keys=True, use_natural_primary_keys=True)
+    tasks = serializers.serialize('json', tasks, indent = 2,  use_natural_foreign_keys=True, use_natural_primary_keys=True)
+    journals = serializers.serialize('json', journals, indent = 2,  use_natural_foreign_keys=True, use_natural_primary_keys=True)
+
+    return HttpResponse(projects + tasks + journals, content_type="taskmanager/json")

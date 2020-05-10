@@ -10,6 +10,9 @@ class Project(models.Model):
     class Meta:
         verbose_name = "Project"
 
+    def natural_key(self):
+        return (self.name)
+
     def __str__(self):
         return self.name
 
@@ -38,6 +41,9 @@ class Task(models.Model):
 
     class Meta:
         verbose_name = "Task"
+
+    def natural_key(self):
+        return (self.name)
 
     def __str__(self):
         return self.name
