@@ -106,7 +106,7 @@ def exportcvs(request):
     writer.writerow('')
 
     writer.writerow(['Taches:'])
-    writer.writerow(['Nom, Description, Assignee, Date debut, Date fin, Statut, Priorite'])
+    writer.writerow(['Nom du projet', 'Nom', 'Description', 'Assignee', 'Date debut', 'Date fin', 'Statut', 'Priorite'])
     writer.writerow('')
     projects = Project.objects.all()
     for project in projects:
@@ -119,7 +119,7 @@ def exportcvs(request):
     writer.writerow('')
 
     writer.writerow(['Journals:'])
-    writer.writerow(['Projet, Tache, Date, Entree, Auteur'])
+    writer.writerow(['Nom du projet', 'Tache', 'Date', 'Entree', 'Auteur'])
     writer.writerow('')
     tasks = Task.objects.all()
     for task in tasks:
