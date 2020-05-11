@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from .models import Project, Task, Journal
 from django.contrib.auth.models import User
-from .forms import TaskForm,JournalForm
+from .forms import TaskForm,JournalForm,SearchTaskForm
 from datetime import datetime
 import csv
 from django.core import serializers
@@ -21,9 +21,41 @@ def projects(request):
 
 @login_required
 def project(request, id):
-    tache = Task.objects.filter(project_id = id) #On affiche seulement les taches du projet
+
+    form = SearchTaskForm(request.POST or None)
+
+    if form.is_valid():
+        start_date = form.cleaned_data['start_date']
+        due_date = form.cleaned_data['due_date']
+        status = form.cleaned_data['status']
+        tache_recherchee = form.save(commit=False)
+
+
+        if hasattr(tache_recherchee, 'assignee') :
+                tache = Task.objects.filter(project_id=id,
+                                            name__contains=tache_recherchee.name,
+                                            assignee=tache_recherchee.assignee,
+                                            status__in=status
+                                            )
+        else :
+            tache = Task.objects.filter(project_id=id,
+                                        name__contains=tache_recherchee.name,
+                                        status__in=status,
+                                        )
+        if start_date:
+            tache = tache.filter(start_date__lt=start_date)
+
+        if due_date:
+            tache = tache.filter(due_date__lte=due_date)
+
+
+
+    else :
+        tache = Task.objects.filter(project_id=id)  # On affiche seulement les taches du projet
+
+
     project = Project.objects.get(id = id)
-    return render(request,'taskmanager/project.html',{'taches' : tache, 'project' : project})
+    return render(request,'taskmanager/project.html',{'taches' : tache, 'project' : project,'form' : form})
 
 @login_required
 def task(request, id):
@@ -93,6 +125,7 @@ def history(request,id):
     # Quoiqu'il arrive, on affiche la page du formulaire.
     return render(request, 'taskmanager/task.html', locals(),{'tache' : tache})
 
+
 @login_required
 def exportcvs(request):
     response = HttpResponse(content_type='text_csv')
@@ -161,3 +194,4 @@ def exportxml(request):
     journals = journals[71:]
 
     return HttpResponse(projects + tasks + journals, content_type="taskmanager/xml")
+
