@@ -9,10 +9,29 @@
 <h2 style = "text-align:center"><b>{{project.name}}</b></h2>
 {% endblock %}
 
+{% block filter %}
+    <h5> Recherche avancée :</h5>
+    </br>
+    <form action="{% url "liste_tache" project.id %}" method="POST" >
+        {% csrf_token %}
+        <div class="form-group">
+            {{ form.as_p}}
+        </div>
+        <br/>
+        <div class="input-group-append">
+            <input type="submit" value="Rechercher Tâche" class="btn btn-primary" />
+        </div>
+        </div>
+    </form>
+    <hr/>
+
+
+{%  endblock %}
+
+
+
+
 {% block content %}
-
-
-
 
     <p><a href = "{% url 'new' id=project.id %}" type="button" class="btn btn-primary"> New task  </a></p>
     <table class = "table" >

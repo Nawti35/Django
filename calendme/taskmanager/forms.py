@@ -1,5 +1,6 @@
 from django import forms
 from .models import Task, Journal
+from django.contrib.auth.models import User
 
 class TaskForm(forms.ModelForm):
     class Meta:
@@ -24,4 +25,18 @@ class JournalForm(forms.ModelForm):
 
 
 class SearchTaskForm(forms.ModelForm):
-    searchField = forms.CharField()
+
+    class Meta:
+        model = Task
+        fields = ['name', ]
+
+
+    def __init__(self, *args, **kwargs): #Défini la mise en forme des champs à l'aide de Bootstrap
+        super().__init__(*args, **kwargs)
+        self.fields['name'].widget.attrs.update({'class': 'form-control'})
+        self.fields['name'].required =False
+
+        #self.fields['assignee'].widget.attrs.update({'class': 'form-control'})
+        #self.fields['assignee'].required = False
+
+

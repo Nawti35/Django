@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from .models import Project, Task, Journal
 from django.contrib.auth.models import User
-from .forms import TaskForm,JournalForm
+from .forms import TaskForm,JournalForm,SearchTaskForm
 from datetime import datetime
 # Create your views here.
 
@@ -18,9 +18,25 @@ def projects(request):
 
 @login_required
 def project(request, id):
-    tache = Task.objects.filter(project_id = id) #On affiche seulement les taches du projet
+    tache_recherchee = Task()
+    #members = Project.objects.get(pk=id).members
+    form = SearchTaskForm(request.POST or None)
+
+    if form.is_valid():
+        tache_recherchee.name = form.cleaned_data['name']
+        #tache_recherchee.assignee = form.cleaned_data['assignee']
+
+        tache = Task.objects.filter(project_id=id,
+                                    name__contains=tache_recherchee.name,
+                                    #assignee=tache_recherchee.assignee
+                                    )
+
+    else :
+        tache = Task.objects.filter(project_id=id)  # On affiche seulement les taches du projet
+
+
     project = Project.objects.get(id = id)
-    return render(request,'taskmanager/project.html',{'taches' : tache, 'project' : project})
+    return render(request,'taskmanager/project.html',{'taches' : tache, 'project' : project,'form' : form})
 
 @login_required
 def task(request, id):
@@ -89,5 +105,4 @@ def history(request,id):
 
     # Quoiqu'il arrive, on affiche la page du formulaire.
     return render(request, 'taskmanager/task.html', locals(),{'tache' : tache})
-
 
