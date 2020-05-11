@@ -21,18 +21,34 @@ def projects(request):
 
 @login_required
 def project(request, id):
-    tache_recherchee = Task()
-    #members = Project.objects.get(pk=id).members
+
     form = SearchTaskForm(request.POST or None)
 
     if form.is_valid():
-        tache_recherchee.name = form.cleaned_data['name']
-        #tache_recherchee.assignee = form.cleaned_data['assignee']
+        start_date = form.cleaned_data['start_date']
+        due_date = form.cleaned_data['due_date']
+        status = form.cleaned_data['status']
+        tache_recherchee = form.save(commit=False)
 
-        tache = Task.objects.filter(project_id=id,
-                                    name__contains=tache_recherchee.name,
-                                    #assignee=tache_recherchee.assignee
-                                    )
+
+        if hasattr(tache_recherchee, 'assignee') :
+                tache = Task.objects.filter(project_id=id,
+                                            name__contains=tache_recherchee.name,
+                                            assignee=tache_recherchee.assignee,
+                                            status__in=status
+                                            )
+        else :
+            tache = Task.objects.filter(project_id=id,
+                                        name__contains=tache_recherchee.name,
+                                        status__in=status,
+                                        )
+        if start_date:
+            tache = tache.filter(start_date__lt=start_date)
+
+        if due_date:
+            tache = tache.filter(due_date__lte=due_date)
+
+
 
     else :
         tache = Task.objects.filter(project_id=id)  # On affiche seulement les taches du projet

@@ -1,5 +1,5 @@
 from django import forms
-from .models import Task, Journal
+from .models import Task, Journal,Status
 from django.contrib.auth.models import User
 
 class TaskForm(forms.ModelForm):
@@ -25,10 +25,17 @@ class JournalForm(forms.ModelForm):
 
 
 class SearchTaskForm(forms.ModelForm):
+    status = forms.ModelMultipleChoiceField(Status.objects,
+                                            required=False,
+                                            widget=forms.CheckboxSelectMultiple
+                                            )
+    start_date = forms.DateField(required=False,widget=forms.SelectDateWidget,label='Tache commencée avant le')
+    due_date = forms.DateField(required=False, widget=forms.SelectDateWidget,label='Tache à finir avant le ')
 
     class Meta:
         model = Task
-        fields = ['name', ]
+        fields = ['name','assignee','start_date','due_date']
+
 
 
     def __init__(self, *args, **kwargs): #Défini la mise en forme des champs à l'aide de Bootstrap
@@ -36,7 +43,10 @@ class SearchTaskForm(forms.ModelForm):
         self.fields['name'].widget.attrs.update({'class': 'form-control'})
         self.fields['name'].required =False
 
-        #self.fields['assignee'].widget.attrs.update({'class': 'form-control'})
-        #self.fields['assignee'].required = False
+        self.fields['assignee'].widget.attrs.update({'class': 'form-control'})
+        self.fields['assignee'].required = False
+
+
+
 
 

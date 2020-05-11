@@ -1,5 +1,8 @@
 {% extends "base.html" %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'taskmanager/css/listwithoutpoints.css' %}"/>
 {% block title %}{% endblock %}
+
 {% block nav %}
   <h3><a href = "{% url 'project' %}">Projets</a> / <a href = "{% url 'liste_tache' id=project.id %}">{{project.name}}</a>
 </h3>
@@ -14,7 +17,7 @@
     </br>
     <form action="{% url "liste_tache" project.id %}" method="POST" >
         {% csrf_token %}
-        <div class="form-group">
+        <div class="form-group" id="test">
             {{ form.as_p}}
         </div>
         <br/>
