@@ -22,7 +22,7 @@ def projects(request):
 @login_required
 def project(request, id):
 
-    form = SearchTaskForm(request.POST or None)
+    form = SearchTaskForm(request.POST or None,initial={'status':True})
 
     if form.is_valid():
         start_date = form.cleaned_data['start_date']

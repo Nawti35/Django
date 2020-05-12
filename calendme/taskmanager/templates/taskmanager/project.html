@@ -1,6 +1,5 @@
 {% extends "base.html" %}
-{% load static %}
-<link rel="stylesheet" href="{% static 'taskmanager/css/listwithoutpoints.css' %}"/>
+
 {% block title %}{% endblock %}
 
 {% block nav %}
@@ -17,7 +16,7 @@
     </br>
     <form action="{% url "liste_tache" project.id %}" method="POST" >
         {% csrf_token %}
-        <div class="form-group" id="test">
+        <div class="form-group">
             {{ form.as_p}}
         </div>
         <br/>
