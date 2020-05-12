@@ -26,8 +26,8 @@ class JournalForm(forms.ModelForm):
 
 class SearchTaskForm(forms.ModelForm):
     status = forms.ModelMultipleChoiceField(Status.objects,
-                                            required=False,
-                                            widget=forms.CheckboxSelectMultiple(attrs={'class':'form-inline  mr-2 ml-3 '}),
+                                            required=False, #Le champ n'est pas obligatoire
+                                            widget=forms.CheckboxSelectMultiple(attrs={'class':'form-inline  mr-2 ml-3 '}), #Création d'une liste de cases avec sélection multiple possible
                                             label='Statuts',
                                             )
 
@@ -42,7 +42,7 @@ class SearchTaskForm(forms.ModelForm):
     class Meta:
         model = Task
         fields = ['name','assignee','start_date','due_date',]
-        labels = {
+        labels = {  #Modification des labels des attributs non redéfinis au dessus
             'name' : 'nom',
             'assignee': 'Utilisateur assigné'
         }
@@ -59,8 +59,7 @@ class SearchTaskForm(forms.ModelForm):
         self.fields['assignee'].required = False
         self.fields['assignee'].label = "Utilisateur assigné"
 
-        self.initial['status'] = [statut for statut in Status.objects.all()]
-
+        self.initial['status'] = [statut for statut in Status.objects.all()] #Initialise toutes les cases statuts comme cochées
 
 
 
