@@ -210,3 +210,9 @@ def mytask(request):
 
     return render(request,'taskmanager/mytasks.html',locals())
 
+
+
+
+@login_required
+def presentF1(request):
+   return render(request,'taskmanager/presentF1.html')

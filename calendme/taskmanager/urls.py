@@ -15,4 +15,5 @@ urlpatterns = [
     path('exportjson', views.exportjson, name = 'exportjson'),
     path('exportxml', views.exportxml, name = 'exportxml'),
     path('present/mytasks',views.mytask, name='mes tâches'),
+    path('present/',views.presentF1, name  = 'F1start'),
 ]
