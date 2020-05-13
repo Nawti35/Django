@@ -55,7 +55,8 @@ def project(request, id):
 
     #On récupère la méthode de tri envoyé par la méthode GET
     attr = request.GET.get('sort')
-    if attr != "None": #Si l'utilisateur a bien rentré un attribut de tri valide
+
+    if attr and attr != "None": #Si l'utilisateur a bien rentré un attribut de tri valide
         tache = tache.order_by(attr) #On tri les taches selon l'attribut
 
     return render(request,'taskmanager/project.html',{'taches': tache, 'project': project,'form': form})
@@ -197,4 +198,15 @@ def exportxml(request):
     journals = journals[71:]
 
     return HttpResponse(projects + tasks + journals, content_type="taskmanager/xml")
+
+
+@login_required()
+def mytask(request):
+    finished = request.GET.get("finished")
+    if finished and finished=="True":
+        tasks = Task.objects.filter(assignee=request.user,status__name__in={'Terminée','Classée'})
+    else:
+        tasks = Task.objects.filter(assignee=request.user)
+
+    return render(request,'taskmanager/mytasks.html',locals())
 

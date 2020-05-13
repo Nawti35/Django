@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+    <h3> My tasks : </h3>
+    <br/>
+    <form action="{% url 'mes tâches' %}" method="get">
+        <div class="form-group">
+            <select class="form-control-sm" name="finished">
+                <option value="None" selected>Display only finished tasks.. </option>
+                <option value="False">No</option>
+                <option value="True">Yes</option>
+            </select>
+            <button type="submit" class="btn btn-secondary">Ok</button>
+        </div>
+    </form>
+    <table class="table">
+        <tr>
+            <th>Task</a></th>
+            <th>Project</th>
+            <th>Start date</th>
+            <th>Due date</th>
+            <th>Status</th>
+
+        </tr>
+
+        {% for task in  tasks %}
+            <tr>
+                <div class="tache">
+
+                    <td><a href="{% url 'tache' task.id %}" style="text-align: left ">{{ task.name }}</a></td>
+                    <td><a href="{% url 'liste_tache' task.project.id %}">{{ task.project.name }}</a></td>
+                    <td>{{ task.start_date }}</td>
+                    <td><p class=" badge badge-warning">{{ task.due_date }}</p></td>
+                    <td>{{ task.status }}</td>
+
+                </div>
+            </tr>
+        {% empty %}
+            <p>Aucune tâches assignées</p>
+        {% endfor %}
+
+    </table>
+
+{% endblock %}
