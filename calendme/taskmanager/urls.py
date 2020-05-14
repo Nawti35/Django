@@ -12,4 +12,7 @@ urlpatterns = [
     path('newtask/<int:id>',views.newtask, name='new'),
     path('newhist/<int:id>',views.history, name  = 'history'),
 
+    path('project/<int:id>/histogram/',views.histogram_tache, name = 'hist_tache'),
+    path('project/<int:id>/gant/',views.gant_chart, name = 'gant')
+
 ]

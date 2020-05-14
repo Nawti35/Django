@@ -7,6 +7,7 @@
 
 {% block inter %}
 <h2 style = "text-align:center"><b>{{project.name}}</b></h2>
+<h6> <a href = "{% url 'hist_tache' id=project.id %}">Histogramme actions</a> - <a href = "{% url 'gant' id=project.id %}">Diagramme durée</a></h6>
 {% endblock %}
 
 {% block content %}

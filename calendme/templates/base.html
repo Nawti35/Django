@@ -22,6 +22,9 @@
     <!-- Latest compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 
+    <!--script pour l'affichage des charts-->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
     <!-- CECI EST LE TEMPLATE DE BASE DU SITE WEB, L'ENSEMBLE DES TEMPLATES SONT BASES SUR CELUI CI -->
 </head>
 <body>
@@ -55,7 +58,8 @@
        {% block content %}
        {% endblock %}
      </div>
-
+    {% block chart %}
+    {% endblock %}
    </section>
 
 <footer>     &copy; Titouan Dellis  </footer>
