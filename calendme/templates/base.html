@@ -5,16 +5,16 @@
 
     <title>
         {% block title %}
-        Calend-me
+            Calend-me
         {% endblock %}
     </title>
 
+    <!-- Les listes ul n'auront pas de point à chaque ligne -->
     <style>
-        ul{
+        ul {
             list-style-type: none;
-         }
+        }
     </style>
-
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
@@ -28,43 +28,36 @@
     <!-- Latest compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 
+
     <!-- CECI EST LE TEMPLATE DE BASE DU SITE WEB, L'ENSEMBLE DES TEMPLATES SONT BASES SUR CELUI CI -->
 </head>
+
+
 <body>
 <header>
     <div class="jumbotron">
-    <h1>Calend-me</h1>
-        <h3>Bonjour ! <b>{{request.user}}</b></h3>
-    <p style = "text-align:right" ><a href=" {% url 'logout' %}"> Se deconnecter</a></p>
+        <h1>Calend-me</h1>
+        <h3>Bonjour ! <b>{{ request.user }}</b></h3>
+        <p style="text-align:right"><a href=" {% url 'logout' %}"> Se deconnecter</a></p>
     </div>
 
 </header>
-    <nav>
-        <ul class="breadcrumb" >
-       {% block nav %}
-       {% endblock %}
-
-        </ul>
-
-
-   </nav>
-   <section id="content">
-
-    <div class="container-fluid ">
-        {% block inter %}
+<nav>
+    <ul class="breadcrumb">
+        {% block nav %}
         {% endblock %}
-
-        {% block filter %}
-        {%  endblock %}
+    </ul>
 
 
+</nav>
+<section id="content">
+    <div class="container-fluid ">
+        {% block content %}
+        {% endblock %}
+    </div>
 
-       {% block content %}
-       {% endblock %}
-     </div>
+</section>
 
-   </section>
-
-<footer>     &copy; Titouan Dellis  </footer>
+<footer> &copy; Titouan Dellis Laurent Thongkham Aureliano Araujo Alexis Le Penven</footer>
 </body>
 </html>

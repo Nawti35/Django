@@ -1,47 +1,48 @@
-{% extends "base.html" %}
+{% extends "taskmanager/presentF1.html" %}
 
 {% block title %}{% endblock %}
 
 {% block nav %}
-  <h3><a href = "{% url 'project' %}">Projets</a> / <a href = "{% url 'liste_tache' id=project.id %}">{{project.name}}</a>
-</h3>
+    <h3><a href="{% url 'project' %}">Projets</a> / <a
+            href="{% url 'liste_tache' id=project.id %}">{{ project.name }}</a>
+    </h3>
 {% endblock %}
 
+
 {% block inter %}
-<h2 style = "text-align:center"><b>{{project.name}}</b></h2>
+    <a href="{% url 'F1start' %}" class="btn btn-primary" style="float: right;">Tableau de bord</a>
+    <h2 style="text-align:center"><b>{{ project.name }}</b></h2>
 {% endblock %}
 
 <!-- Block de filtre de recherche -->
 {% block filter %}
     <h5> Recherche avancée :</h5>
     </br>
-    <form action="{% url "liste_tache" project.id %}" method="POST" >
+    <form action="{% url "liste_tache" project.id %}" method="POST">
         {% csrf_token %}
         <div class="form-group">
-            {{ form.as_p}}
+            {{ form.as_p }}
         </div>
         <br/>
         <!-- Bouton pour lancer la recherche -->
         <div class="input-group-append">
-            <input type="submit" value="Rechercher Tâche" class="btn btn-primary" />
+            <input type="submit" value="Rechercher Tâche" class="btn btn-primary"/>
         </div>
         </div>
     </form>
     <hr/>
-{%  endblock %}
+{% endblock %}
 
 
 
+{% block details %}
 
-{% block content %}
-
-    <p><a href = "{% url 'new' id=project.id %}" type="button" class="btn btn-primary"> New task  </a></p>
-
+    <p><a href="{% url 'new' id=project.id %}" type="button" class="btn btn-primary"> New task </a></p>
     <p>
-    <!-- Formulaire de tri des données -->
-    <form action="{%  url 'liste_tache' project.id %}" method="get" >
+        <!-- Formulaire de tri des données -->
+    <form action="{% url 'liste_tache' project.id %}" method="get">
         <div class="form-group">
-            <select class="form-control-sm"  name="sort">
+            <select class="form-control-sm" name="sort">
                 <option value="None" selected>Sort by...</option>
                 <option value="name">Name</option>
                 <option value="assignee">Assignee</option>
@@ -54,31 +55,31 @@
         </div>
     </form>
     <p/>
-    <table class = "table" >
-    <tr>
-        <th>Task</a></th>
-        <th>Assignee</th>
-        <th>Start date</th>
-        <th>Due date</th>
-        <th></th>
-
-    </tr>
-
-    {% for tache in  taches %}
+    <table class="table">
         <tr>
-        <div class="tache">
+            <th>Task</a></th>
+            <th>Assignee</th>
+            <th>Start date</th>
+            <th>Due date</th>
+            <th></th>
 
-            <td><a href = "{% url 'tache' id=tache.id %}" style="text-align: left ">{{ tache.name }}</a></td>
-             <td>{{ tache.assignee }}</td>
-             <td>{{ tache.start_date }}</td>
-            <td><p class="badge badge-warning">{{ tache.due_date }}</p></td>
-            <td><a href = "{% url 'edit' id=tache.id %}" class="badge badge-danger"> EDIT </a></td>
-
-        </div>
         </tr>
-    {% empty %}
-        <p>Aucune tâches assignées</p>
-    {% endfor %}
+
+        {% for tache in  taches %}
+            <tr>
+                <div class="tache">
+
+                    <td><a href="{% url 'tache' id=tache.id %}" style="text-align: left ">{{ tache.name }}</a></td>
+                    <td>{{ tache.assignee }}</td>
+                    <td>{{ tache.start_date }}</td>
+                    <td><p class="badge badge-warning">{{ tache.due_date }}</p></td>
+                    <td><a href="{% url 'edit' id=tache.id %}" class="badge badge-danger"> EDIT </a></td>
+
+                </div>
+            </tr>
+        {% empty %}
+            <p>Aucune tâches assignées</p>
+        {% endfor %}
 
     </table>
 {% endblock %}

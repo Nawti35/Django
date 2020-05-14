@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "taskmanager/presentF1.html" %}
 {% block title %}{% endblock %}
 {% block nav %}
 
@@ -6,8 +6,10 @@
 </h3>
 
 {% endblock %}
-{% block content %}
 
+
+{% block details %}
+    <a href="{% url 'F1start' %}" class="btn btn-primary" style="float: right;">Tableau de bord</a>
     <h2>{{projet.name}}</h2>
     <h2>{{projet.id}}</h2>
     <h3>{{name}}</h3>

@@ -1,16 +1,17 @@
-{% extends 'base.html' %}
+{% extends "taskmanager/presentF1.html" %}
 
 
-{% block content %}
+{% block details %}
+
     <a href="{% url 'F1start' %}" class="btn btn-primary" style="float: right;">Tableau de bord</a>
-    <h3> My tasks : </h3>
+    <h3> Mes tâches : </h3>
     <br/>
     <form action="{% url 'mes tâches' %}" method="get">
         <div class="form-group">
             <select class="form-control-sm" name="finished">
-                <option value="None" selected>Display only finished tasks.. </option>
-                <option value="False">No</option>
-                <option value="True">Yes</option>
+                <option value="None" selected>Afficher seulement les tâches terminées.. </option>
+                <option value="False">Non</option>
+                <option value="True">Oui</option>
             </select>
             <button type="submit" class="btn btn-secondary">Ok</button>
         </div>

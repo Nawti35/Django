@@ -23,6 +23,10 @@ class JournalForm(forms.ModelForm):
         model = Journal
         fields = ('entry',) #Les autres entrees du journal seront automatiquement remplies (la date et l'utilisateur)
 
+    def __init__(self, *args, **kwargs): #Défini la mise en forme des champs à l'aide de Bootstrap
+        super().__init__(*args, **kwargs)
+        self.fields['entry'].widget.attrs.update({'class': 'form-control-sm'})
+
 
 class SearchTaskForm(forms.ModelForm):
     status = forms.ModelMultipleChoiceField(Status.objects,
