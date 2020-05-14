@@ -216,3 +216,8 @@ def mytask(request):
 @login_required
 def presentF1(request):
    return render(request,'taskmanager/presentF1.html')
+
+
+@login_required
+def menu(request):
+   return render(request,'taskmanager/menu.html')

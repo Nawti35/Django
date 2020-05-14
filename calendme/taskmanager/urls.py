@@ -16,4 +16,6 @@ urlpatterns = [
     path('exportxml', views.exportxml, name = 'exportxml'),
     path('present/mytasks',views.mytask, name='mes tâches'),
     path('present/',views.presentF1, name  = 'F1start'),
+    path('menu/',views.menu, name  = 'menu'),
+
 ]
