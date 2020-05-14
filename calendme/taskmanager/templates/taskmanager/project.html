@@ -10,8 +10,11 @@
 
 
 {% block inter %}
+
     <a href="{% url 'F1start' %}" class="btn btn-primary" style="float: right;">Tableau de bord</a>
     <h2 style="text-align:center"><b>{{ project.name }}</b></h2>
+    <h6> <a href = "{% url 'hist_tache' id=project.id %}">Histogramme actions</a> - <a href = "{% url 'gant' id=project.id %}">Diagramme durée</a></h6>
+
 {% endblock %}
 
 <!-- Block de filtre de recherche -->

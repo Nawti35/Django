@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% block title %}{% endblock %}
+{% block nav %}
+  <h3><a href = "{% url 'project' %}">Projets</a> /
+</h3>
+{% endblock %}
+
+{% block chart %}
+
+
+    {% for tache in List_tache %}
+        <p class = "tache" style="display: none">{{tache.name}}</p>
+    {% endfor %}
+    {% for ecart in List_ecart %}
+      <p class = "List_ecart" style="display: none">{{ecart}}</p>
+    {% endfor %}
+    {% for duree in List_duree %}
+      <p class = "List_duree" style="display: none">{{duree}}</p>
+    {% endfor %}
+
+
+    <script>
+
+        var tache = document.getElementsByClassName("tache");
+        var ecart_date = document.getElementsByClassName("List_ecart");
+        var duree_date = document.getElementsByClassName("List_duree");
+
+        var List_labels = [];
+        var List_data_ecart = [];
+        var List_data_duree = [];
+        var List_color = [];
+
+
+        for (var i=0; i < 50; i++){
+             List_labels.push(tache[i].innerHTML)
+             List_data_ecart.push(ecart_date[i].innerHTML)
+             List_data_duree.push(duree_date[i].innerHTML)
+
+        }
+
+    // List_data.push(realdata[0].innerHTML)
+    </script>
+
+
+
+    <script>
+
+        donnee = {
+                        datasets: [{
+                                data: List_data_duree,
+                                backgroundColor: ['rgb(181,235,255)','rgb(181,230,255)','rgb(181,220,255)','rgb(181,210,255)','rgb(181,200,255)','rgb(181,190,255)','rgb(181,180,255)','rgb(181,190,255)','rgb(181,170,255)','rgb(181,160,255)','rgb(181,155,255)','rgb(181,150,255)','rgb(181,145,255)','rgb(181,140,255)'],
+                                label: 'Durée de la tache (en jours) ',
+
+                            }],
+
+                            // These labels appear in the legend and in the tooltips when hovering different arcs
+                            labels : List_labels,
+
+
+                    }
+        donnee2 = {
+                        datasets: [{
+                                data: List_data_ecart,
+                                backgroundColor: 'rgb(255,220,180)',//'rgb(211,255,130)','rgb(255,129,90)','rgb(181,240,255)'
+                                label: 'Jours restants',
+
+                            }],
+
+                            // These labels appear in the legend and in the tooltips when hovering different arcs
+                            labels : List_labels,
+
+
+                    }
+    </script>
+
+    <div class="chart-container" style="position: relative; height:30vh; width:60vw">
+        <canvas id="myChart"></canvas>
+            <script>
+                var ctx = document.getElementById('myChart');
+                var myPieChart = new Chart(ctx, {
+                type: 'horizontalBar',
+                data: donnee,
+                options: {
+                    animation: {
+
+                        duration: 1000
+                    },
+
+                }
+                });
+
+        </script>
+
+    <div class="chart-container" style="position: relative ; height:30vh; width:60vw">
+        <canvas id="myChart2"></canvas>
+
+    <script>
+                var ctx = document.getElementById('myChart2');
+                var myPieChart = new Chart(ctx, {
+                type: 'horizontalBar',
+                data: donnee2,
+                options: {
+                    animation: {
+
+                        duration: 1000
+                    },
+
+                }
+                });
+
+        </script>
+{% endblock%}

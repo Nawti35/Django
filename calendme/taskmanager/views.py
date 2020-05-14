@@ -8,9 +8,10 @@ from .models import Project, Task, Journal
 from django.contrib.auth.models import User
 from .forms import TaskForm,JournalForm,SearchTaskForm
 from datetime import datetime
+
 import csv
-from django.core import serializers
 import xlwt
+
 # Create your views here.
 
 
@@ -349,5 +350,43 @@ def presentF1(request):
 def menu(request):
    return render(request,'taskmanager/menu.html')
 
+
+
+#ICI C'EST LES VIEWS POUR LES GRAPHES :
+#Chart c'est juste pour les tests et affichage etc,..., elle sera supprimé par la suite
+#On va faire une views par endroit ou il aura des chart, 1 pour le diagramme pour les actions taches, une pour les projets, ...
+
+
+def histogram_tache(request,id):
+
+    projet = Project.objects.get(id =id)
+    List_auteurs = User.objects.filter(Project = projet)
+    print(List_auteurs)
+    List_tache = Task.objects.filter(project = projet)
+
+    List_actions = []
+
+    for auteur in List_auteurs :
+        n=0
+        for task in List_tache :
+            List_journal = Journal.objects.filter(author = auteur, task = task )
+            n += len(List_journal)
+        List_actions.append(n)
+
+
+    return render(request, 'taskmanager/histogram_tache.html',locals(),{'List_actions' : List_actions, 'List_auteurs' : List_auteurs})
+
+def gant_chart(request,id):
+    projet = Project.objects.get(id = id)
+    List_tache = Task.objects.filter(project = projet)
+    List_duree = []
+    List_ecart = []
+
+    for task in List_tache :
+        List_ecart.append(int(str((task.due_date - datetime.now().date()).days)))
+        List_duree.append(int(str(( task.due_date - task.start_date).days)))
+
+
+    return render(request, 'taskmanager/gant_chart.html',locals(),{'List_tache' : List_tache, 'List_duree' : List_duree, 'List_ecart' : List_ecart, 'projet' : projet})
 
 

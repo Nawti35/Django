@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block title %}{% endblock %}
+{% block nav %}
+  <h3><a href = "{% url 'project' %}">Projets</a> /
+</h3>
+{% endblock %}
+
+{% block chart %}
+
+
+    {% for auteur in List_auteurs %}
+        <p class = "auteurs" style="display: none">{{auteur}}</p>
+    {%endfor%}
+
+    {% for action in List_actions %}
+        <p class = "actions" style="display: none">{{action}}</p>
+    {%endfor%}
+
+
+    <script>
+
+        //var auteur = JSON.parse(document.getElementById('List_auteurs').textContent);
+
+        //var data = JSON.parse(document.getElementById('action').textContent);
+
+        var auteur = document.getElementsByClassName("auteurs");
+        var realdata = document.getElementsByClassName("actions");
+
+        var List_labels = [];
+        var List_data = [];
+
+
+        for (var i=0; i < 100; i++){
+             List_labels.push(auteur[i].innerHTML)
+             List_data.push(realdata[i].innerHTML)
+        }
+
+    // List_data.push(realdata[0].innerHTML)
+    </script>
+
+
+    <script>
+
+        donnee = {
+                        datasets: [{
+                                data: List_data,
+                                backgroundColor: ['rgb(181,240,255)','rgb(181,230,255)','rgb(181,220,255)','rgb(181,210,255)','rgb(181,200,255)','rgb(181,190,255)','rgb(181,180,255)'],
+                                label: 'Actions des utilisateurs',
+                                barThickness: 4,
+
+                                minBarLength: 2,
+                            }],
+
+                            // These labels appear in the legend and in the tooltips when hovering different arcs
+                            labels : List_labels,
+
+
+                    }
+    </script>
+
+    <div class="chart-container" style="position: relative; height:20vh; width:40vw">
+        <canvas id="myChart"></canvas>
+            <script>
+                var ctx = document.getElementById('myChart');
+                var myPieChart = new Chart(ctx, {
+                type: 'bar',
+                data: donnee,
+                options: {
+                    animation: {
+
+                        duration: 1000
+                    },
+                    scales: {
+                        yAxes: [{
+                            offset: true
+                        }]
+                    }
+                }
+                });
+
+        </script>
+    </div>
+
+{% endblock %}
