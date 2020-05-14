@@ -1,0 +1,68 @@
+<html lang="fr"><head>
+    <meta charset="UTF-8">
+
+    <title>
+
+        Calend-me
+
+    </title>
+
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+    <!-- CECI EST LE TEMPLATE DE BASE DU SITE WEB, L'ENSEMBLE DES TEMPLATES SONT BASES SUR CELUI CI -->
+
+
+</head>
+
+<body>
+ <div class="container-fluid h-100">
+  <div class="row h-100">
+    <aside class="col-12 col-md-2 p-0 bg-light " style="min-height: 100vh;">
+      <nav class="navbar navbar-expand navbar-light bg-light flex-md-column flex-row align-items-start">
+        <div class="collapse navbar-collapse">
+          <ul class="flex-md-column flex-row navbar-nav w-100 justify-content-between">
+            <li class="nav-item">
+               <a class="nav-link pl-0" href="#">Projets</a>
+            </li>
+            <!-- Insérez ici le reste de votre menu -->                 <li class="nav-item">
+               <a class="nav-link pl-0" href="{% url 'mes tâches' %}">Tâches</a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link pl-0" href="#">Activités</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </aside>
+    <main class="col">
+      <!-- Insérez ici le contenu principal du site ou de l'application -->
+
+    <div class="card">
+  <h1 class="card-header" style="background-color: #0062cc;color: #eee;">Tableau de bord</h1>
+  <div class="card-body">
+    <h5 class="card-title">Accédez à toutes vos informations</h5>
+
+    <a href="{% url 'menu' %}" class="btn btn-primary">Menu</a>
+  </div>
+</div>
+
+</main>
+  </div>
+ </div>
+
+
+
+
+</body>
+</html>

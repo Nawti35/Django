@@ -24,41 +24,45 @@ def projects(request):
 
 @login_required
 def project(request, id):
+    project = Project.objects.get(id=id)
 
-    form = SearchTaskForm(request.POST or None)
+    form = SearchTaskForm(request.POST or None)  #Création du formulaire de filtre de recherche
 
     if form.is_valid():
         start_date = form.cleaned_data['start_date']
         due_date = form.cleaned_data['due_date']
         status = form.cleaned_data['status']
-        tache_recherchee = form.save(commit=False)
+        tache_recherchee = form.save(commit=False) #On récupère le no et l'utilisateur assigné
 
 
-        if hasattr(tache_recherchee, 'assignee') :
-                tache = Task.objects.filter(project_id=id,
+        if hasattr(tache_recherchee, 'assignee') : #Si l'utilisateur a rentré un utilisateur assigné
+                tache = Task.objects.filter(project_id=id,        #On filtre les taches à afficher
                                             name__contains=tache_recherchee.name,
                                             assignee=tache_recherchee.assignee,
                                             status__in=status
                                             )
-        else :
+        else:
             tache = Task.objects.filter(project_id=id,
                                         name__contains=tache_recherchee.name,
                                         status__in=status,
                                         )
-        if start_date:
+        if start_date: #Si l'utilisateur a rentré une date de départ
             tache = tache.filter(start_date__lt=start_date)
 
-        if due_date:
+        if due_date: #Si l'utilisateur a rentré une date de fin
             tache = tache.filter(due_date__lte=due_date)
 
 
-
     else :
-        tache = Task.objects.filter(project_id=id)  # On affiche seulement les taches du projet
+        tache = Task.objects.filter(project_id=id)  # Pas de filtre : on affiche toutes les taches du projet
 
+    #On récupère la méthode de tri envoyé par la méthode GET
+    attr = request.GET.get('sort')
 
-    project = Project.objects.get(id = id)
-    return render(request,'taskmanager/project.html',{'taches' : tache, 'project' : project,'form' : form})
+    if attr and attr != "None": #Si l'utilisateur a bien rentré un attribut de tri valide
+        tache = tache.order_by(attr) #On tri les taches selon l'attribut
+
+    return render(request,'taskmanager/project.html',{'taches': tache, 'project': project,'form': form})
 
 @login_required
 def task(request, id):
@@ -199,6 +203,7 @@ def exportxml(request):
     return HttpResponse(projects + tasks + journals, content_type="taskmanager/xml")
 
 
+<<<<<<< HEAD
 @login_required
 def exportMSExcelProjects(request):
     response = HttpResponse(content_type='taskmanager/projects.ms-excel')
@@ -292,3 +297,26 @@ def exportMSExcelProjects(request):
 
     workbook.save(response)
     return response
+=======
+@login_required()
+def mytask(request):
+    finished = request.GET.get("finished")
+    if finished and finished=="True":
+        tasks = Task.objects.filter(assignee=request.user,status__name__in={'Terminée','Classée'})
+    else:
+        tasks = Task.objects.filter(assignee=request.user)
+
+    return render(request,'taskmanager/mytasks.html',locals())
+
+
+
+
+@login_required
+def presentF1(request):
+   return render(request,'taskmanager/presentF1.html')
+
+
+@login_required
+def menu(request):
+   return render(request,'taskmanager/menu.html')
+>>>>>>> 3d132d43ce90f4c240b551ae82c9e67d621c322c

@@ -1,6 +1,5 @@
 {% extends "base.html" %}
-{% load static %}
-<link rel="stylesheet" href="{% static 'taskmanager/css/listwithoutpoints.css' %}"/>
+
 {% block title %}{% endblock %}
 
 {% block nav %}
@@ -12,23 +11,23 @@
 <h2 style = "text-align:center"><b>{{project.name}}</b></h2>
 {% endblock %}
 
+<!-- Block de filtre de recherche -->
 {% block filter %}
     <h5> Recherche avancée :</h5>
     </br>
     <form action="{% url "liste_tache" project.id %}" method="POST" >
         {% csrf_token %}
-        <div class="form-group" id="test">
+        <div class="form-group">
             {{ form.as_p}}
         </div>
         <br/>
+        <!-- Bouton pour lancer la recherche -->
         <div class="input-group-append">
             <input type="submit" value="Rechercher Tâche" class="btn btn-primary" />
         </div>
         </div>
     </form>
     <hr/>
-
-
 {%  endblock %}
 
 
@@ -37,9 +36,27 @@
 {% block content %}
 
     <p><a href = "{% url 'new' id=project.id %}" type="button" class="btn btn-primary"> New task  </a></p>
+
+    <p>
+    <!-- Formulaire de tri des données -->
+    <form action="{%  url 'liste_tache' project.id %}" method="get" >
+        <div class="form-group">
+            <select class="form-control-sm"  name="sort">
+                <option value="None" selected>Sort by...</option>
+                <option value="name">Name</option>
+                <option value="assignee">Assignee</option>
+                <option value="start_date">Start date</option>
+                <option value="due_date">Due date</option>
+                <option value="priority">Priority</option>
+                <option value="status">Status</option>
+            </select>
+            <button type="submit" class="btn btn-secondary">Ok</button>
+        </div>
+    </form>
+    <p/>
     <table class = "table" >
     <tr>
-        <th>Task</th>
+        <th>Task</a></th>
         <th>Assignee</th>
         <th>Start date</th>
         <th>Due date</th>
