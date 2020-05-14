@@ -18,7 +18,7 @@ urlpatterns = [
     path('present/mytasks',views.mytask, name='mes tâches'),
     path('present/',views.presentF1, name  = 'F1start'),
     path('menu/',views.menu, name  = 'menu'),
-    path('projectplus/',views.myproject, name='projectplus' ),
+]
 
 
 

@@ -19,6 +19,14 @@
         <div class="project">
 
             <td><a href = "{% url 'liste_tache' id=project.id%}">{{ project.name }}</a></td>
+            <td>
+                {% for user in users %}
+                    <span class="badge badge-primary">{{ user.username }}</span>
+                {% empty %}
+                    <p> Aucun utilisateur assigné au projet</p>
+                {% endfor %}
+            </td>
+
 
         </div>
 

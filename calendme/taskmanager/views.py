@@ -17,9 +17,12 @@ import xlwt
 @login_required
 def projects(request):
     user = request.user
-    project = Project.objects.filter(members = user) #On affiche que les projets de l'utilisateur connecté
+    projects = Project.objects.filter(members=user) #On affiche que les projets de l'utilisateur connecté
+    print(projects)
+    for project in projects:
+        users = project.members.all()
 
-    return render(request,'taskmanager/projects.html',{'projects' : project})
+    return render(request,'taskmanager/projects.html',{'projects' : projects,'users' : users})
 
 
 @login_required
@@ -347,14 +350,4 @@ def menu(request):
    return render(request,'taskmanager/menu.html')
 
 
-
-@login_required()
-def myproject(request):
-
-    #tasks = Task.objects.filter(assignee=request.user,status__name__in={'Terminée','Classée'})
-    #tasks = Task.objects.filter(assignee=request.user)
-    user = request.user
-    project = Project.objects.filter(members=user)
-
-    return render(request,'taskmanager/myprojects.html',{'projects' : project})
 
