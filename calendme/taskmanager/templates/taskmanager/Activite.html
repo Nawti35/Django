@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}{% endblock %}
+{% block nav %}
+  <h3><a href = "{% url 'project' %}">Projets</a> /
+</h3>
+{% endblock %}
+
+{% block content %}
+
+    <table class = "table">
+    <tr>
+        <th>Tache</th>
+        <th>Date de derniere action réalisée</th>
+    </tr>
+
+    {% for elt,vl  in  dico.items %}
+        <tr>
+        <div class="tache">
+
+            <td>{{ elt }}</td>
+
+            <td ><p class="badge badge-warning">{{ vl }}</p></td>
+
+        </div>
+        </tr>
+    {% empty %}
+        <p>Aucune tâches assignées</p>
+    {% endfor %}
+
+    </table>
+
+
+
+
+{% endblock %}

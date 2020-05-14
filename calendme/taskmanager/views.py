@@ -5,6 +5,8 @@ from .models import Project, Task, Journal
 from django.contrib.auth.models import User
 from .forms import TaskForm,JournalForm
 from datetime import datetime
+from collections import OrderedDict
+from django.db.models import Max
 from django.core import serializers
 # Create your views here.
 
@@ -128,5 +130,33 @@ def gant_chart(request,id):
 
 
     return render(request, 'taskmanager/gant_chart.html',locals(),{'List_tache' : List_tache, 'List_duree' : List_duree, 'List_ecart' : List_ecart, 'projet' : projet})
+
+
+
+
+def activite(request,id):
+    projet = Project.objects.get(id=id)
+    List_tache = Task.objects.filter(project=projet)
+    List_date_derniere_action = []
+    dico = {}
+    for task in List_tache:
+        derniere_action = Journal.objects.filter(task=task)
+        max = datetime(2000,1,1).date()
+        for action in derniere_action:
+            if (action.date >max ):
+                max = action.date
+
+        List_date_derniere_action.append(max)
+
+
+
+        dico[task.name] = str(max)
+    s_dico = sorted(dico.items(), key=lambda t: t[1])
+
+
+
+
+    return render(request,'taskmanager/Activite.html',locals(),{'List_tache':List_tache, 'List_date':List_date_derniere_action, 'project':projet,'dico': s_dico})
+
 
 

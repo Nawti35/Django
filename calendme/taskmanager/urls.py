@@ -13,6 +13,7 @@ urlpatterns = [
     path('newhist/<int:id>',views.history, name  = 'history'),
 
     path('project/<int:id>/histogram/',views.histogram_tache, name = 'hist_tache'),
-    path('project/<int:id>/gant/',views.gant_chart, name = 'gant')
+    path('project/<int:id>/gant/',views.gant_chart, name = 'gant'),
+    path('project/<int:id>/activite/',views.activite,name = 'activite')
 
 ]
