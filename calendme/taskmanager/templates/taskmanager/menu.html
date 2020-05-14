@@ -71,13 +71,13 @@
                         <span>Exportez vos données dans un fichier csv, json ou xml.</span>
                     </div>
 
-                    <a href="#" class="btn btn-primary" style="background-color: #4CAF50;
+                    <a href="{% url 'exportcsv' %}" class="btn btn-primary" style="background-color: #4CAF50;
     border-color: #4CAF50;">csv</a>
-                    <a href="#" class="btn btn-primary" style="background-color: #4CAF50;
+                    <a href="{% url 'exportxml' %}" class="btn btn-primary" style="background-color: #4CAF50;
     border-color: #4CAF50;">xml</a>
-                    <a href="#" class="btn btn-primary" style="background-color: #4CAF50;
+                    <a href="{% url 'exportjson' %}" class="btn btn-primary" style="background-color: #4CAF50;
     border-color: #4CAF50;">json</a>
-                    <a href="#" class="btn btn-primary" style="background-color: #4CAF50;
+                    <a href="{% url 'exportmsexcel' %}" class="btn btn-primary" style="background-color: #4CAF50;
     border-color: #4CAF50;">MS Excel</a>
 
                 </div>
