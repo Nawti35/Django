@@ -1,16 +1,15 @@
-{% extends "base.html" %}
+{% extends "taskmanager/presentF1.html" %}
 {% block title %}{% endblock %}
 
 {% block nav %}
   <h3><a href = "{% url 'project' %}">Projets</a>
 {% endblock %}
 
-      {% block inter %}
-       <h2>Voici les projets</h2>
-      {% endblock %}
+{% block inter %}
+    <h2>Voici les projets</h2>
+{% endblock %}
 
-{% block content %}
-
+{% block details %}
 
     <table class = "table">
 
