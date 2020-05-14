@@ -14,12 +14,8 @@ urlpatterns = [
     path('exportcsv', views.exportcvs, name = 'exportcsv'),
     path('exportjson', views.exportjson, name = 'exportjson'),
     path('exportxml', views.exportxml, name = 'exportxml'),
-<<<<<<< HEAD
-    path('exportmsexcel', views.exportMSExcelProjects, name = 'exportmsexcelprojects')
-=======
+    path('exportmsexcel', views.exportMSExcel, name ='exportmsexcelprojects'),
     path('present/mytasks',views.mytask, name='mes tâches'),
     path('present/',views.presentF1, name  = 'F1start'),
     path('menu/',views.menu, name  = 'menu'),
-
->>>>>>> 3d132d43ce90f4c240b551ae82c9e67d621c322c
 ]

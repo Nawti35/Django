@@ -132,19 +132,21 @@ def history(request,id):
     # Quoiqu'il arrive, on affiche la page du formulaire.
     return render(request, 'taskmanager/task.html', locals(),{'tache' : tache})
 
-
+'''Export CSV'''
 @login_required
 def exportcvs(request):
     response = HttpResponse(content_type='text_csv')
 
     writer = csv.writer(response)
 
+    # Bloc projets
     writer.writerow(['Projets:'])
     for project in Project.objects.all().values_list('name'):
         writer.writerow(project)
 
     writer.writerow('')
 
+    # Bloc Taches
     writer.writerow(['Taches:'])
     writer.writerow(['Nom du projet', 'Nom', 'Description', 'Assignee', 'Date debut', 'Date fin', 'Statut', 'Priorite'])
     writer.writerow('')
@@ -158,6 +160,7 @@ def exportcvs(request):
 
     writer.writerow('')
 
+    # Bloc Journals
     writer.writerow(['Journals:'])
     writer.writerow(['Nom du projet', 'Tache', 'Date', 'Entree', 'Auteur'])
     writer.writerow('')
@@ -173,24 +176,38 @@ def exportcvs(request):
 
     return response
 
+'''Export Json'''
 @login_required
 def exportjson(request):
     projects = Project.objects.all()
     tasks = Task.objects.all()
     journals = Journal.objects.all()
 
+    # Transformation des donnees
+    # On assigne les parametres use_natural_foreign_keys et use_natural_primary_keys a True
+    # que les donnees des objets relies par des ForeignKey et ManytoMany apparaissent
     projects = serializers.serialize('json', projects, indent=2, use_natural_foreign_keys=True, use_natural_primary_keys=True)
     tasks = serializers.serialize('json', tasks, indent = 2,  use_natural_foreign_keys=True, use_natural_primary_keys=True)
     journals = serializers.serialize('json', journals, indent = 2,  use_natural_foreign_keys=True, use_natural_primary_keys=True)
 
-    return HttpResponse(projects + tasks + journals, content_type="taskmanager/json")
+    # Retrait des bornes de debut et fin pour tout envoyer
+    # dans le meme fichier
+    projects = projects[:len(projects)-2]
+    tasks = tasks[1:len(tasks)-2]
+    journals = journals[1:]
 
+    return HttpResponse(projects + "," + tasks + "," + journals, content_type="taskmanager/json")
+
+'''Export xml'''
 @login_required
 def exportxml(request):
     projects = Project.objects.all()
     tasks = Task.objects.all()
     journals = Journal.objects.all()
 
+    # Transformation des donnees
+    # On assigne les parametres use_natural_foreign_keys et use_natural_primary_keys a True
+    # que les donnees des objets relies par des ForeignKey et ManytoMany apparaissent
     projects = serializers.serialize('xml', projects, indent=2, use_natural_foreign_keys=True, use_natural_primary_keys=True)
     tasks = serializers.serialize('xml', tasks, indent = 2,  use_natural_foreign_keys=True, use_natural_primary_keys=True)
     journals = serializers.serialize('xml', journals, indent = 2,  use_natural_foreign_keys=True, use_natural_primary_keys=True)
@@ -202,51 +219,53 @@ def exportxml(request):
 
     return HttpResponse(projects + tasks + journals, content_type="taskmanager/xml")
 
-
-<<<<<<< HEAD
+'''Export MS Excel'''
 @login_required
-def exportMSExcelProjects(request):
+def exportMSExcel(request):
     response = HttpResponse(content_type='taskmanager/projects.ms-excel')
     response['Content-Disposition'] = 'attachment; filename=Projects.xlsx'
 
+    #Fichier de travail excel
     workbook = xlwt.Workbook(encoding='utf-8')
 
-    # Onglet Projets
+    ### Onglet Projets
     worksheet_projects = workbook.add_sheet("Projets")
 
+    #Parametre de positions et dimensions des cellules
     letter_width = 250
     row_index = 3
     projects_col_width = letter_width * 15
 
+    # Legendes
     columns = ['Nom', 'Membres...']
     for col_num in range(len(columns)):
         worksheet_projects.write(row_index, col_num, columns[col_num])
 
-    projects = Project.objects.filter(members = request.user)
+    projects = Project.objects.all()
     for project in projects:
         row_index += 1
-
-        print(projects_col_width)
-        print(len(project.name) * letter_width)
+        # Si le nom du projet est trop long, on aggrandit la cellule
         if len(project.name) * letter_width > projects_col_width:
-            print("IIN")
             projects_col_width = len(project.name) * letter_width
-
         worksheet_projects.write(row_index, 0, project.name)
+
         members = project.members.all()
         col_index = 1
         for member in members:
             worksheet_projects.write(row_index, col_index, member.username)
             col_index += 1
 
-        # Onglet Taches
+        ### Onglet Taches
         worksheet_task = workbook.add_sheet(project.name)
 
+        # Parametre de positions et dimensions des cellules
         tasks_col_width = 10 * letter_width
         description_col_width = 20 * letter_width
         date_col_width = 12 * letter_width
         priority_col_width = 8 * letter_width
         row_index_task = 3
+
+        #Legendes
         columns = ['Nom', 'Description', 'Assignee', 'Date debut', 'Date fin', 'Priorite', 'Status']
         for col_num in range(len(columns)):
             worksheet_task.write(row_index_task, col_num, columns[col_num])
@@ -258,6 +277,7 @@ def exportMSExcelProjects(request):
         for task in tasks:
             row_index_task += 1
 
+            # Si le nom de la tache est trop long, on aggrandit la cellule
             if len(task.name) * letter_width > tasks_col_width:
                 tasks_col_width = len(task.name) * letter_width
 
@@ -269,11 +289,14 @@ def exportMSExcelProjects(request):
             worksheet_task.write(row_index_task, 5, task.priority)
             worksheet_task.write(row_index_task, 6, task.status.name)
 
-            # Onglet tache
+            ### Onglet Journals
             worksheet_journal = workbook.add_sheet(task.name)
 
+            # Parametre de positions et dimensions des cellules
             entry_col_width = 30 * letter_width
             row_index_journal = 3
+
+            #Legendes
             columns = ['Date', 'Entree', 'Auteur']
             for col_num in range(len(columns)):
                 worksheet_journal.write(row_index_journal, col_num, columns[col_num])
@@ -284,20 +307,23 @@ def exportMSExcelProjects(request):
                 worksheet_journal.write(row_index_journal, 0, journal.date, format_date)
                 worksheet_journal.write(row_index_journal, 1, journal.entry)
                 worksheet_journal.write(row_index_journal, 2, journal.author.username)
+            #Applique les dimensions
             worksheet_journal.col(0).width = date_col_width
             worksheet_journal.col(1).width = entry_col_width
 
+        # Applique les dimensions
         worksheet_task.col(0).width = tasks_col_width
         worksheet_task.col(1).width = description_col_width
         worksheet_task.col(3).width = date_col_width
         worksheet_task.col(4).width = date_col_width
         worksheet_task.col(5).width = priority_col_width
 
+    # Applique les dimensions
     worksheet_projects.col(0).width = projects_col_width
 
     workbook.save(response)
     return response
-=======
+
 @login_required()
 def mytask(request):
     finished = request.GET.get("finished")
@@ -319,4 +345,3 @@ def presentF1(request):
 @login_required
 def menu(request):
    return render(request,'taskmanager/menu.html')
->>>>>>> 3d132d43ce90f4c240b551ae82c9e67d621c322c
