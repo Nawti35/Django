@@ -22,97 +22,62 @@
 
 </head>
 
+
 <body>
-    <div class="box">
+<header>
+    <div class="jumbotron">
+        <h1>Calend-me</h1>
+        <h3>Bonjour ! <b>{{ request.user }}</b></h3>
+        <p style="text-align:right"><a href=" {% url 'logout' %}"> Se deconnecter</a></p>
+    </div>
+
+</header>
+<div class="box">
     <div class="container">
-     	<div class="row">
+        <div class="row">
 
-			    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-18">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-18">
 
-					<div class="box-part text-center">
+                <div class="box-part text-center">
 
-                        <i class="fas fa-info fa-5x" aria-hidden="true" style="color: #2196F3;"></i>
+                    <i class="fas fa-info fa-5x" aria-hidden="true" style="color: #2196F3;"></i>
 
-						<div class="title">
-							<h4>Tableau de bord</h4>
-						</div>
+                    <div class="title">
+                        <h4>Tableau de bord</h4>
+                    </div>
 
-						<div class="text">
-							<span>Retrouvez des informations sur vos projets et ses tâches.</span>
-						</div>
+                    <div class="text">
+                        <span>Retrouvez des informations sur vos projets et ses tâches.</span>
+                    </div>
 
-						<a href="{% url 'F1start' %}" class="btn btn-primary" style="background-color: #2196F3;
+                    <a href="{% url 'F1start' %}" class="btn btn-primary" style="background-color: #2196F3;
     border-color: #2196F3;">Aller</a>
 
-					 </div>
-				</div>
-
-                <!--
-				 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-18">
-
-					<div class="box-part text-center">
-
-					    <i class="fas fa-search fa-5x" aria-hidden="true" style="color: #9C27B0;"></i>
-
-						<div class="title">
-							<h4>Recherche avancée</h4>
-						</div>
-
-						<div class="text">
-							<span>Appliquez des filtres pour trover des données pertinentes.</span>
-						</div>
-
-						<a href="#" class="btn btn-primary" style="background-color: #9C27B0;
-    border-color: #9C27B0;">Aller</a>
-
-					 </div>
-				</div>
-                -->
+                </div>
+            </div>
 
 
-				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-18">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-18">
 
-					<div class="box-part text-center">
+                <div class="box-part text-center">
 
-                        <i class="fas fa-file-export fa-5x" aria-hidden="true" style="color: #4CAF50;"></i>
+                    <i class="fas fa-file-export fa-5x" aria-hidden="true" style="color: #4CAF50;"></i>
 
-						<div class="title">
-							<h4>Exportation des données</h4>
-						</div>
+                    <div class="title">
+                        <h4>Exportation des données</h4>
+                    </div>
 
-						<div class="text">
-							<span>Exportez vos données dans un fichier csv, json ou xml.</span>
-						</div>
+                    <div class="text">
+                        <span>Exportez vos données dans un fichier csv, json ou xml.</span>
+                    </div>
 
-						<a href="#" class="btn btn-primary" style="background-color: #4CAF50;
+                    <a href="#" class="btn btn-primary" style="background-color: #4CAF50;
     border-color: #4CAF50;">Aller</a>
 
-					 </div>
-				</div>
+                </div>
+            </div>
 
-            <!--
-				 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-18">
-
-					<div class="box-part text-center">
-
-                        <i class="fas fa-chart-area fa-5x" aria-hidden="true" style="color: #F44336;"></i>
-
-						<div class="title">
-							<h4>Graphes</h4>
-						</div>
-
-						<div class="text">
-							<span>Visualisez des graphes utiles.</span>
-						</div>
-
-						<a href="#" class="btn btn-primary" style="background-color: #F44336;
-    border-color: #F44336;">Aller</a>
-
-					 </div>
-				</div>
-				-->
-
-		</div>
+        </div>
     </div>
 </div>
 

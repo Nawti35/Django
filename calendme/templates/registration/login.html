@@ -1,13 +1,21 @@
 {% extends "base.html" %}
-{% block title %}Calend-me : Login{% endblock %}
 
+{% block title %}
+    Calend-me : Login
+{% endblock %}
 
 
 {% block content %}
-    <form method="post" action="{% url 'login' %}">
-    {% csrf_token %}
-    {{ form }}
-    <input type="submit" value="login">
-    <input type="hidden" name="next" value="{{ next }}">
-    </form>
+    <br>
+    <!-- Formulaire de connexion -->
+    <div style="margin-left: 50px">
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Login" class="btn btn-primary" >
+            <input type="hidden" name="next" value="{{ next }}">
+        </form>
+    </div>
+    <br><br><br><br><br><br><br><br><br><br><br>
+
 {% endblock %}

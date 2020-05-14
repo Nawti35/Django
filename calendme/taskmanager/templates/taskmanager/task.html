@@ -2,15 +2,18 @@
 {% block title %}{% endblock %}
 {% block nav %}
 
-<!-- Barre de navigation permettant de reactualiser la page ou d'acceder aux précendentes -->
-<h3><a href = "{% url 'project' %}">Projets</a> / <a href = "{% url 'liste_tache' id=tache.project.id %}">{{tache.project.name}}</a> / <a href = "{% url 'tache' id=tache.id %}">{{tache.name}} </a>
-</h3>
+    <!-- Barre de navigation permettant de reactualiser la page ou d'acceder aux précendentes -->
+    <h3><a href="{% url 'project' %}">Projets</a> / <a
+            href="{% url 'liste_tache' id=tache.project.id %}">{{ tache.project.name }}</a> / <a
+            href="{% url 'tache' id=tache.id %}">{{ tache.name }} </a>
+    </h3>
 
 {% endblock %}
 
 {% block inter %}
-<h2 style = "text-align:center"><b>{{tache.project.name}}</b></h2>
-<h3 style = "text-align:left"><i>{{tache.name}}</i></h3>
+    <a href="{% url 'F1start' %}" class="btn btn-primary" style="float: right;">Tableau de bord</a>
+    <h2 style="text-align:center"><b>{{ tache.project.name }}</b></h2>
+    <h3 style="text-align:left"><i>{{ tache.name }}</i></h3>
 {% endblock %}
 {% block details %}
 
