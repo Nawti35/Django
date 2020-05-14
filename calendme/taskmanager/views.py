@@ -221,3 +221,14 @@ def presentF1(request):
 @login_required
 def menu(request):
    return render(request,'taskmanager/menu.html')
+
+
+@login_required()
+def myproject(request):
+
+    #tasks = Task.objects.filter(assignee=request.user,status__name__in={'Terminée','Classée'})
+    #tasks = Task.objects.filter(assignee=request.user)
+    user = request.user
+    project = Project.objects.filter(members=user)
+
+    return render(request,'taskmanager/myprojects.html',{'projects' : project})
