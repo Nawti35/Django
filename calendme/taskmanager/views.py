@@ -2,12 +2,15 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
+from django.utils.translation import ugettext
+
 from .models import Project, Task, Journal
 from django.contrib.auth.models import User
 from .forms import TaskForm,JournalForm,SearchTaskForm
 from datetime import datetime
 import csv
 from django.core import serializers
+import xlwt
 # Create your views here.
 
 
@@ -195,3 +198,97 @@ def exportxml(request):
 
     return HttpResponse(projects + tasks + journals, content_type="taskmanager/xml")
 
+
+@login_required
+def exportMSExcelProjects(request):
+    response = HttpResponse(content_type='taskmanager/projects.ms-excel')
+    response['Content-Disposition'] = 'attachment; filename=Projects.xlsx'
+
+    workbook = xlwt.Workbook(encoding='utf-8')
+
+    # Onglet Projets
+    worksheet_projects = workbook.add_sheet("Projets")
+
+    letter_width = 250
+    row_index = 3
+    projects_col_width = letter_width * 15
+
+    columns = ['Nom', 'Membres...']
+    for col_num in range(len(columns)):
+        worksheet_projects.write(row_index, col_num, columns[col_num])
+
+    projects = Project.objects.filter(members = request.user)
+    for project in projects:
+        row_index += 1
+
+        print(projects_col_width)
+        print(len(project.name) * letter_width)
+        if len(project.name) * letter_width > projects_col_width:
+            print("IIN")
+            projects_col_width = len(project.name) * letter_width
+
+        worksheet_projects.write(row_index, 0, project.name)
+        members = project.members.all()
+        col_index = 1
+        for member in members:
+            worksheet_projects.write(row_index, col_index, member.username)
+            col_index += 1
+
+        # Onglet Taches
+        worksheet_task = workbook.add_sheet(project.name)
+
+        tasks_col_width = 10 * letter_width
+        description_col_width = 20 * letter_width
+        date_col_width = 12 * letter_width
+        priority_col_width = 8 * letter_width
+        row_index_task = 3
+        columns = ['Nom', 'Description', 'Assignee', 'Date debut', 'Date fin', 'Priorite', 'Status']
+        for col_num in range(len(columns)):
+            worksheet_task.write(row_index_task, col_num, columns[col_num])
+
+        format_date = xlwt.XFStyle()
+        format_date.num_format_str = 'dd/mm/yyyy'
+
+        tasks = project.task_set.all()
+        for task in tasks:
+            row_index_task += 1
+
+            if len(task.name) * letter_width > tasks_col_width:
+                tasks_col_width = len(task.name) * letter_width
+
+            worksheet_task.write(row_index_task, 0, task.name)
+            worksheet_task.write(row_index_task, 1, task.description)
+            worksheet_task.write(row_index_task, 2, task.assignee.username)
+            worksheet_task.write(row_index_task, 3, task.start_date, format_date)
+            worksheet_task.write(row_index_task, 4, task.due_date, format_date)
+            worksheet_task.write(row_index_task, 5, task.priority)
+            worksheet_task.write(row_index_task, 6, task.status.name)
+
+            # Onglet tache
+            worksheet_journal = workbook.add_sheet(task.name)
+
+            entry_col_width = 30 * letter_width
+            row_index_journal = 3
+            columns = ['Date', 'Entree', 'Auteur']
+            for col_num in range(len(columns)):
+                worksheet_journal.write(row_index_journal, col_num, columns[col_num])
+
+            journals = task.journal_set.all()
+            for journal in journals:
+                row_index_journal += 1
+                worksheet_journal.write(row_index_journal, 0, journal.date, format_date)
+                worksheet_journal.write(row_index_journal, 1, journal.entry)
+                worksheet_journal.write(row_index_journal, 2, journal.author.username)
+            worksheet_journal.col(0).width = date_col_width
+            worksheet_journal.col(1).width = entry_col_width
+
+        worksheet_task.col(0).width = tasks_col_width
+        worksheet_task.col(1).width = description_col_width
+        worksheet_task.col(3).width = date_col_width
+        worksheet_task.col(4).width = date_col_width
+        worksheet_task.col(5).width = priority_col_width
+
+    worksheet_projects.col(0).width = projects_col_width
+
+    workbook.save(response)
+    return response
