@@ -58,12 +58,17 @@
         {% block content %}
         {% endblock %}
     </div>
-
-    {% block chart %}
-    {% endblock %}
+    <div class="container-fluid ">
+        {% block chart %}
+        {% endblock %}
+    </div>
 </section>
 
 
-<footer> &copy; Titouan Dellis Laurent Thongkham Aureliano Araujo Alexis Le Penven</footer>
+<footer>
+    {% block footer %}
+    &copy; Titouan Dellis Laurent Thongkham Aureliano Araujo Alexis Le Penven
+    {% endblock %}
+</footer>
 </body>
 </html>
